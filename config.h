@@ -36,6 +36,14 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ "Viewnior",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "vlc",  	NULL,       NULL,       0,       	1,           -1 },	
+	{ "Audacious",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "Xfce4-appfinder",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "qt5ct",  NULL,       "Qt5 Configuration Tool",       0,       	1,           -1 },	
+	{ "Lxappearance",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "Nitrogen",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "Deadbeef",  NULL,       NULL,       0,       	1,           -1 },	
+
 };
 
 /* layout(s) */
@@ -74,6 +82,8 @@ static Key keys[] = {
 	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer -D pulse sset Master 5%+") },	
 	{ MODKEY,             			XK_F1, spawn,      		SHCMD("chromium") },			
 	{ MODKEY,             			XK_F2, spawn,      		SHCMD("code") },			
+	{ MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },			
+	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("thunar") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },	
