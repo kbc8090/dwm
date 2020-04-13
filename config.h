@@ -3,7 +3,7 @@
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 10;       /* gap pixel between windows */
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int snap      = 20;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
@@ -78,8 +78,10 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             			XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,             			XK_KP_Subtract, spawn,      SHCMD("amixer -D pulse sset Master 5%-") },
-	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer -D pulse sset Master 5%+") },	
+	/* { MODKEY,             			XK_KP_Subtract, spawn,      SHCMD("amixer -D pulse sset Master 5%-") }, */
+	{ MODKEY,             			XK_KP_Subtract, spawn,      SHCMD("amixer sset Master 5%-") },
+	/* { MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer -D pulse sset Master 5%+") }, */
+	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer sset Master 5%+") },	
 	{ MODKEY,             			XK_F1, spawn,      		SHCMD("chromium") },			
 	{ MODKEY,             			XK_F2, spawn,      		SHCMD("code") },			
 	{ MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },			
