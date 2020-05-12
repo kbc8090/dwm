@@ -10,7 +10,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrains Mono:size=10:style=Medium:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
+static const char *fonts[]          = { "JetBrains Mono:size=10:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
 static const char dmenufont[]       = "JetBrains Mono Medium:size=11";
 static const char col_gray1[]       = "#212c36";
 static const char col_gray2[]       = "#444444";
@@ -44,6 +44,8 @@ static const Rule rules[] = {
 	{ "Nitrogen",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "Deadbeef",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "feh",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "Sxiv",  NULL,       NULL,       0,       	1,           -1 },	
+
 
 };
 
@@ -73,7 +75,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "urxvt", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
