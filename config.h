@@ -14,7 +14,7 @@ static const char *fonts[]          = { "Ubuntu Mono:size=12:style=Bold:dpi=96:a
 static const char dmenufont[]       = "Ubuntu Mono:size=12:style=Bold";
 static const char col_gray1[]       = "#1b1e2b";
 static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
+static const char col_gray3[]       = "#a8b4ff";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#148aff";
 static const char *colors[][3]      = {
@@ -45,6 +45,7 @@ static const Rule rules[] = {
 	{ "Deadbeef",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "feh",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "Sxiv",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "Engrampa",  NULL,       NULL,       0,       	1,           -1 },	
 
 
 };
