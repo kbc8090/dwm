@@ -1,9 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 8;       /* gap pixel between windows */
-static const unsigned int snap      = 20;       /* snap pixel */
+static const unsigned int snap      = 15;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
@@ -14,7 +14,7 @@ static const char *fonts[]          = { "Ubuntu Mono:size=12:style=Bold:dpi=96:a
 static const char dmenufont[]       = "Ubuntu Mono:size=12:style=Bold";
 static const char col_gray1[]       = "#1b1e2b";
 static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#a8b4ff";
+static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#148aff";
 static const char *colors[][3]      = {
@@ -45,7 +45,6 @@ static const Rule rules[] = {
 	{ "Deadbeef",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "feh",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "Sxiv",  NULL,       NULL,       0,       	1,           -1 },	
-	{ "Engrampa",  NULL,       NULL,       0,       	1,           -1 },	
 
 
 };
@@ -77,6 +76,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *jgmenucmd[]  = { "jgmenu_run", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -143,5 +143,8 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+	{ ClkWinTitle,				0,					 Button1,		  spawn, {.v = jgmenucmd } },
+	{ ClkWinTitle,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
+	{ ClkRootWin,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
 };
 
