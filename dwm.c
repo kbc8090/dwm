@@ -862,7 +862,7 @@ drawbar(Monitor *m)
                 wsbar = wbar;
                 drw_setscheme(drw, scheme[SchemeStatus]);
                 x = wbar - wstext;
-                drw_rect(drw, x, 0, lrpad / 2, bh, 1, 1); x += lrpad / 2; /* to keep left padding clean */
+                drw_rect(drw, x, 0, lrpad / 2 - 4, bh, 1, 1); x += lrpad / 2 - 4; /*to keep left padding clean */
                 for (;;) {
                         if ((unsigned char)*stc >= ' ') {
                                 stc++;
@@ -881,7 +881,7 @@ drawbar(Monitor *m)
                         stp = ++stc;
                 }
                 drw_setscheme(drw, scheme[SchemeNorm]);
-               /* drw_rect(drw, x, 0, wbar - x, bh, 1, 1);  to keep right padding clean */
+                drw_rect(drw, x, 0, wbar - x, bh, 1, 1);  /*to keep right padding clean */
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -2493,11 +2493,11 @@ updatestatus(void)
                         else
                                 *(sts++) = *rst;
                 *stp = *stc = *sts = '\0';
-                wstext = TEXTW(stextp) - lrpad / 2;
+                wstext = TEXTW(stextp) - lrpad / 2 - 4;
         } else {
                 strcpy(stextc, "dwm-"VERSION);
                 strcpy(stexts, stextc);
-                wstext = TEXTW(stextc) - lrpad / 2;
+                wstext = TEXTW(stextc) - lrpad / 2 - 4;
         }
         drawbar(selmon);
 }
