@@ -5,21 +5,43 @@ static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 8;       /* gap pixel between windows */
 static const unsigned int snap      = 15;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const unsigned int systrayspacing = 5;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Ubuntu Mono:size=12:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Ubuntu Mono:size=12:style=Bold";
+static const char *fonts[]          = { "Cascadia Code:size=11:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Cascadia Code:size=11:style=Bold:dpi=96";
 static const char col_gray1[]       = "#1b1e2b";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
+static const char col_gray2[]       = "#3c4261";
+static const char col_gray3[]       = "#a8b4ff";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#148aff";
+static const char col_cyan[]        = "#ffb26b";
+static const char col_blue[]        = "#548aff";
+static const char col1[]            = "#f07178";
+static const char col2[]            = "#719eff";
+static const char col3[]            = "#c387ea";
+static const char col4[]            = "#82dbff";
+static const char col5[]            = "#b7e07c";
+static const char col6[]            = "#ffb26b";
+
+enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
+       SchemeCol5, SchemeCol6, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeSel }; /* color schemes */
+
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	[SchemeCol1]  = { col_gray1,      col1, col_gray2 },
+	[SchemeCol2]  = { col_gray1,      col2, col_gray2 },
+	[SchemeCol3]  = { col_gray1,      col3, col_gray2 },
+	[SchemeCol4]  = { col_gray1,      col4, col_gray2 },
+	[SchemeCol5]  = { col_gray1,      col5, col_gray2 },
+	[SchemeCol6]  = { col_gray1,      col6, col_gray2 },
+	[SchemeStatus]  = { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  = { col_gray1, col_blue,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+   [SchemeTagsNorm]  = { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+   [SchemeInfoSel]  = { col_gray1, col_blue,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+   [SchemeInfoNorm]  = { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
@@ -50,7 +72,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
@@ -74,7 +96,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_blue, "-sf", col_gray1, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *jgmenucmd[]  = { "jgmenu_run", NULL };
 
