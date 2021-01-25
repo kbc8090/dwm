@@ -844,7 +844,7 @@ void
 drawbar(Monitor *m)
 {
 	int x, w;
-        int wbar = m->ww;
+   int wbar = m->ww;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
@@ -1649,7 +1649,7 @@ restack(Monitor *m)
 		XRaiseWindow(dpy, m->sel->win);
 	if (m->lt[m->sellt]->arrange) {
 		wc.stack_mode = Below;
-		wc.sibling = m->barwin;
+		/*wc.sibling = m->barwin;*/
 		for (c = m->stack; c; c = c->snext)
 			if (!c->isfloating && ISVISIBLE(c)) {
 				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);

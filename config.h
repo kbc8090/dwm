@@ -41,7 +41,7 @@ static const char *colors[][3]      = {
 	[SchemeStatus]  = { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
 	[SchemeTagsSel]  = { col_gray1, col_blue,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
    [SchemeTagsNorm]  = { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-   [SchemeInfoSel]  = { col_gray1, col_blue,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+   [SchemeInfoSel]  = { col1, col_gray1,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
    [SchemeInfoNorm]  = { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
@@ -109,6 +109,7 @@ static Key keys[] = {
 	{ MODKEY,             			XK_KP_Subtract, spawn,      SHCMD("amixer sset Master 5%-") },
 	/* { MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer -D pulse sset Master 5%+") }, */
 	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer sset Master 5%+") },	
+	{ MODKEY|ShiftMask,           XK_KP_Add, spawn,      SHCMD("pactl set-sink-volume 0 +5%") },
 	{ MODKEY,             			XK_F1, spawn,      		SHCMD("chromium") },			
 	{ MODKEY,             			XK_F2, spawn,      		SHCMD("code") },			
 	{ MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },			
@@ -166,7 +167,6 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkWinTitle,				0,					 Button1,		  spawn, {.v = jgmenucmd } },
 	{ ClkWinTitle,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
 	{ ClkRootWin,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
 };
