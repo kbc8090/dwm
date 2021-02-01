@@ -850,9 +850,9 @@ drawbar(Monitor *m)
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
-
-        if (showsystray && m == systraytomon(m))
-                wbar -= getsystraywidth();
+	
+	if (showsystray && m == systraytomon(m))
+		wbar -= getsystraywidth();
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
@@ -922,8 +922,8 @@ drawbar(Monitor *m)
 		}
 	}
 
-        XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, wbar, bh);
-		  drw_map(drw, m->barwin, 0, 0, wbar, bh); 
+        XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, wbar, bh + 1);
+		  drw_map(drw, m->barwin, 0, 0, wbar, bh + 1); 
 }
 
 void
@@ -1552,9 +1552,9 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	XWindowChanges wc;
 
 	c->oldx = c->x; c->x = wc.x = x;
-	c->oldy = c->y; c->y = wc.y = y;
+	c->oldy = c->y; c->y = wc.y = y + 1;
 	c->oldw = c->w; c->w = wc.width = w;
-	c->oldh = c->h; c->h = wc.height = h;
+	c->oldh = c->h; c->h = wc.height = h - 1;
 	wc.border_width = c->bw;
 	if ((&monocle == c->mon->lt[c->mon->sellt]->arrange) && (!c->isfloating)) {
 		wc.border_width = 0;
