@@ -255,6 +255,7 @@ static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
+static void togglesystray();
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -2120,6 +2121,17 @@ togglebar(const Arg *arg)
 }
 
 void
+togglesystray()
+{
+	if (showsystray)
+		XUnmapWindow(dpy, systray->win);
+	showsystray = !showsystray;
+	updatesystray();
+	drawbar(selmon);
+}
+
+
+void
 togglefloating(const Arg *arg)
 {
 	if (!selmon->sel)
@@ -2493,11 +2505,11 @@ updatestatus(void)
                         else
                                 *(sts++) = *rst;
                 *stp = *stc = *sts = '\0';
-                wstext = TEXTW(stextp) - lrpad / 2 - 4;
+                wstext = TEXTW(stextp) - lrpad / 2 - 6;
         } else {
                 strcpy(stextc, "dwm-"VERSION);
                 strcpy(stexts, stextc);
-                wstext = TEXTW(stextc) - lrpad / 2 - 4;
+                wstext = TEXTW(stextc) - lrpad / 2 - 6;
         }
         drawbar(selmon);
 }
@@ -2522,6 +2534,8 @@ updatesystrayicongeom(Client *i, int w, int h)
 				i->w = (int) ((float)bh * ((float)i->w / (float)i->h));
 			i->h = bh;
 		}
+		if (i->w > 2*bh)
+			i->w = bh;
 	}
 }
 
@@ -2602,7 +2616,7 @@ updatesystray(void)
 		if (i->mon != m)
 			i->mon = m;
 	}
-	w = w ? w + systrayspacing : 1;
+	w = w ? w + systrayspacing : 1; 
 	x -= w;
 	XMoveResizeWindow(dpy, systray->win, x, m->by, w, bh);
 	wc.x = x; wc.y = m->by; wc.width = w; wc.height = bh;
