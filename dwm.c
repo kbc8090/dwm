@@ -255,7 +255,6 @@ static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
-static void togglesystray();
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -850,9 +849,9 @@ drawbar(Monitor *m)
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
-	
-	if (showsystray && m == systraytomon(m))
-		wbar -= getsystraywidth();
+
+        if (showsystray && m == systraytomon(m))
+                wbar -= getsystraywidth();
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
@@ -1650,7 +1649,7 @@ restack(Monitor *m)
 		XRaiseWindow(dpy, m->sel->win);
 	if (m->lt[m->sellt]->arrange) {
 		wc.stack_mode = Below;
-		/* wc.sibling = m->barwin; */
+		/*wc.sibling = m->barwin;*/
 		for (c = m->stack; c; c = c->snext)
 			if (!c->isfloating && ISVISIBLE(c)) {
 				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);
@@ -2121,17 +2120,6 @@ togglebar(const Arg *arg)
 }
 
 void
-togglesystray()
-{
-	if (showsystray)
-		XUnmapWindow(dpy, systray->win);
-	showsystray = !showsystray;
-	updatesystray();
-	drawbar(selmon);
-}
-
-
-void
 togglefloating(const Arg *arg)
 {
 	if (!selmon->sel)
@@ -2285,6 +2273,7 @@ updatebars(void)
 		if (showsystray && m == systraytomon(m))
 			XMapRaised(dpy, systray->win);
 		XMapRaised(dpy, m->barwin);
+		XSetWindowBorder(dpy, m->barwin, scheme[SchemeNorm][ColBorder].pixel);
 		XSetClassHint(dpy, m->barwin, &ch);
 	}
 }
@@ -2505,11 +2494,11 @@ updatestatus(void)
                         else
                                 *(sts++) = *rst;
                 *stp = *stc = *sts = '\0';
-                wstext = TEXTW(stextp) - lrpad / 2 - 6;
+                wstext = TEXTW(stextp) - lrpad / 2 - 4;
         } else {
                 strcpy(stextc, "dwm-"VERSION);
                 strcpy(stexts, stextc);
-                wstext = TEXTW(stextc) - lrpad / 2 - 6;
+                wstext = TEXTW(stextc) - lrpad / 2 - 4;
         }
         drawbar(selmon);
 }
@@ -2616,12 +2605,11 @@ updatesystray(void)
 		if (i->mon != m)
 			i->mon = m;
 	}
-	w = w ? w + systrayspacing : 1; 
+	w = w ? w + systrayspacing : 1;
 	x -= w;
-	XMoveResizeWindow(dpy, systray->win, x, m->by, w, bh);
-	wc.x = x; wc.y = m->by; wc.width = w; wc.height = bh;
-	wc.stack_mode = Below; 
-	wc.sibling = m->barwin;
+	XMoveResizeWindow(dpy, systray->win, x, m->by, w, bh + 1);
+	wc.x = x; wc.y = m->by; wc.width = w; wc.height = bh + 1;
+	wc.stack_mode = Above; wc.sibling = m->barwin;
 	XConfigureWindow(dpy, systray->win, CWX|CWY|CWWidth|CWHeight|CWSibling|CWStackMode, &wc);
 	XMapWindow(dpy, systray->win);
 	XMapSubwindows(dpy, systray->win);

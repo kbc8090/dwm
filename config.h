@@ -7,12 +7,12 @@ static const unsigned int snap      = 15;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 5;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static int showsystray					= 1;     /* 0 means no systray */
+static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 21;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
-static const char *fonts[]          = { "Ubuntu Mono:size=12:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Ubuntu Mono:size=12:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
+static const char *fonts[]          = { "Fira Mono:size=11:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Fira Mono:size=11:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
 static const char col_gray1[]       = "#1b1e2b";
 static const char col_gray2[]       = "#3c4261";
 static const char col_gray3[]       = "#a8b4ff";
@@ -38,11 +38,11 @@ static const char *colors[][3]      = {
 	[SchemeCol4]  = { col_gray1,      col4, col_gray2 },
 	[SchemeCol5]  = { col_gray1,      col5, col_gray2 },
 	[SchemeCol6]  = { col_gray1,      col6, col_gray2 },
-	[SchemeStatus]  = { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { col_gray1, col_blue,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-   [SchemeTagsNorm]  = { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-   [SchemeInfoSel]  = { col_gray1, col5,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-   [SchemeInfoNorm]  = { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+	[SchemeStatus]  = { col_gray3, col_gray1,  col_gray2  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  = { col_gray1, col_blue,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
+   [SchemeTagsNorm]  = { col_gray3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+   [SchemeInfoSel]  = { col_gray1, col5,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
+   [SchemeInfoNorm]  = { col_gray3, col_gray1,  col_gray2  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
@@ -97,7 +97,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col1, "-sf", col_gray1, "-shb", col_gray1, "-shf", col_gray3, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-p", "Run:", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_blue, "-sf", col_gray1, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *jgmenucmd[]  = { "jgmenu_run", NULL };
 
@@ -111,9 +111,8 @@ static Key keys[] = {
 	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer sset Master 5%+") },	
 	{ MODKEY|ShiftMask,           XK_KP_Add, spawn,      SHCMD("pactl set-sink-volume 0 +5%") },
 	{ MODKEY,             			XK_F1, spawn,      		SHCMD("chromium") },			
-	{ MODKEY,             			XK_F2, spawn,      		SHCMD("librewolf") },			
 	{ MODKEY,             			XK_F2, spawn,      		SHCMD("code") },			
-	{ MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },			
+	/* { MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },	*/
 	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("thunar") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
@@ -133,7 +132,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 /*	{ ControlMask|ShiftMask,        XK_t,  		spawn,      SHCMD("st") },	*/
-	{ MODKEY|ShiftMask,             XK_b,      togglesystray,  {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -160,6 +158,7 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkWinTitle,          0,              Button2,        killclient,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
@@ -169,7 +168,6 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 	{ ClkWinTitle,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
-	{ ClkWinTitle,				0,					 Button2,		  killclient, {0} },
 	{ ClkRootWin,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
 };
 
