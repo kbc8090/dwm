@@ -862,7 +862,7 @@ drawbar(Monitor *m)
                 wsbar = wbar;
                 drw_setscheme(drw, scheme[SchemeStatus]);
                 x = wbar - wstext;
-                drw_rect(drw, x, 0, lrpad / 2 - 4, bh, 1, 1); x += lrpad / 2 - 4; /*to keep left padding clean */
+                drw_rect(drw, x, 0, lrpad / 2 - 3, bh, 1, 1); x += lrpad / 2 - 3; /*to keep left padding clean */
                 for (;;) {
                         if ((unsigned char)*stc >= ' ') {
                                 stc++;
@@ -1345,7 +1345,7 @@ monocle(Monitor *m)
 	if (n > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
+		resize(c, m->wx, m->wy + 1, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
 
 void
@@ -1551,9 +1551,9 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	XWindowChanges wc;
 
 	c->oldx = c->x; c->x = wc.x = x;
-	c->oldy = c->y; c->y = wc.y = y + 1;
+	c->oldy = c->y; c->y = wc.y = y;
 	c->oldw = c->w; c->w = wc.width = w;
-	c->oldh = c->h; c->h = wc.height = h - 1;
+	c->oldh = c->h; c->h = wc.height = h;
 	wc.border_width = c->bw;
 	if ((&monocle == c->mon->lt[c->mon->sellt]->arrange) && (!c->isfloating)) {
 		wc.border_width = 0;
@@ -2090,7 +2090,7 @@ tile(Monitor *m)
 	for(i = 0, my = ty = gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - gappx;
-			resize(c, m->wx + gappx, m->wy + my, mw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw), False);
+			resize(c, m->wx + gappx, m->wy + my + 1, mw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw) - 1, False);
 			my += HEIGHT(c) + gappx;
 		} else {
 			h = (m->wh - ty) / (n - i) - gappx;
@@ -2494,11 +2494,11 @@ updatestatus(void)
                         else
                                 *(sts++) = *rst;
                 *stp = *stc = *sts = '\0';
-                wstext = TEXTW(stextp) - lrpad / 2 - 4;
+                wstext = TEXTW(stextp) - lrpad / 2 - 5;
         } else {
                 strcpy(stextc, "dwm-"VERSION);
                 strcpy(stexts, stextc);
-                wstext = TEXTW(stextc) - lrpad / 2 - 4;
+                wstext = TEXTW(stextc) - lrpad / 2 - 5;
         }
         drawbar(selmon);
 }
@@ -2615,7 +2615,7 @@ updatesystray(void)
 	XMapSubwindows(dpy, systray->win);
 	/* redraw background */
 	XSetForeground(dpy, drw->gc, scheme[SchemeNorm][ColBg].pixel);
-	XFillRectangle(dpy, systray->win, drw->gc, 0, 0, w, bh);
+	XFillRectangle(dpy, systray->win, drw->gc, 0, 0, w, bh + 1);
 	XSync(dpy, False);
 }
 
