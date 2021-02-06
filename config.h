@@ -25,9 +25,10 @@ static const char col3[]            = "#c387ea";
 static const char col4[]            = "#82dbff";
 static const char col5[]            = "#b7e07c";
 static const char col6[]            = "#ffb26b";
+static const char col7[]            = "#f07178";
 
 enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
-       SchemeCol5, SchemeCol6, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeSel }; /* color schemes */
+       SchemeCol5, SchemeCol6, SchemeCol7, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeSel }; /* color schemes */
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -38,6 +39,7 @@ static const char *colors[][3]      = {
 	[SchemeCol4]  = { col_gray1,      col4, col_gray2 },
 	[SchemeCol5]  = { col_gray1,      col5, col_gray2 },
 	[SchemeCol6]  = { col_gray1,      col6, col_gray2 },
+	[SchemeCol7]  = { col7,      col_gray1, col_gray2 },
 	[SchemeStatus]  = { col_gray3, col_gray1,  col_gray2  }, // Statusbar right {text,background,not used but cannot be empty}
 	[SchemeTagsSel]  = { col_gray1, col_blue,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
    [SchemeTagsNorm]  = { col_gray3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
