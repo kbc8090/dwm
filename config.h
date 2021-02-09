@@ -115,7 +115,7 @@ static Key keys[] = {
 	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer sset Master 5%+") },	
 	{ MODKEY|ShiftMask,           XK_KP_Add, spawn,      SHCMD("pactl set-sink-volume 0 +5%") },
 	{ MODKEY,             			XK_F1, spawn,      		SHCMD("chromium --force-dark-mode") },			
-	{ MODKEY,             			XK_F2, spawn,      		SHCMD("code") },			
+	{ MODKEY,             			XK_F2, spawn,      		SHCMD("firefox") },			
 	/* { MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },	*/
 	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("thunar") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
