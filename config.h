@@ -10,11 +10,12 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const Bool viewontag         = True;     /* Switch view on tag switch */
 static const int user_bh            = 21;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
-static const char *fonts[]          = { "Cascadia Code:size=10:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Cascadia Code:size=10:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
+static const char *fonts[]          = { "Ubuntu Mono:size=12:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Ubuntu Mono:size=12:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
 static const char col_gray1[]       = "#1b1e2b";
-static const char col_gray2[]       = "#3c4261";
+static const char col_gray2[]       = "#33384d";
 static const char col_gray3[]       = "#a8b4ff";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#ffb26b";
@@ -28,7 +29,7 @@ static const char col6[]            = "#ffb26b";
 static const char col7[]            = "#f07178";
 
 enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
-       SchemeCol5, SchemeCol6, SchemeCol7, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeSel }; /* color schemes */
+       SchemeCol5, SchemeCol6, SchemeCol7, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeTagsOcc, SchemeInfoSel, SchemeInfoNorm, SchemeSel }; /* color schemes */
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -43,6 +44,7 @@ static const char *colors[][3]      = {
 	[SchemeStatus]  = { col_gray3, col_gray1,  col_gray2  }, // Statusbar right {text,background,not used but cannot be empty}
 	[SchemeTagsSel]  = { col_gray1, col_blue,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
    [SchemeTagsNorm]  = { col_gray3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+   [SchemeTagsOcc]  = { col3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
    [SchemeInfoSel]  = { col_gray1, col5,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
    [SchemeInfoNorm]  = { col_gray3, col_gray1,  col_gray2  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
