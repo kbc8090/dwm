@@ -44,7 +44,7 @@ static const char *colors[][3]      = {
 	[SchemeStatus]  = { col_gray3, col_gray1,  col_gray2  }, // Statusbar right {text,background,not used but cannot be empty}
 	[SchemeTagsSel]  = { col_gray1, col_blue,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
    [SchemeTagsNorm]  = { col_gray3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-   [SchemeTagsOcc]  = { col3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+   [SchemeTagsOcc]  = { col6, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
    [SchemeInfoSel]  = { col_gray1, col5,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
    [SchemeInfoNorm]  = { col_gray3, col_gray1,  col_gray2  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
@@ -172,6 +172,8 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 	{ ClkWinTitle,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
+	{ ClkWinTitle,				0,					 Button1,		  focusstack,     {.i = +1 } },
+	{ ClkWinTitle,				MODKEY,			 Button1,		  focusstack,     {.i = -1 } },
 	{ ClkRootWin,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
 };
 
