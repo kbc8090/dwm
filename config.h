@@ -84,7 +84,7 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ " ",      tile },    /* first entry is default */
-	{ " ",      NULL },    /* no layout function means floating behavior */
+/*	{ " ",      NULL },     no layout function means floating behavior */
 	{ "履 ",      monocle }
 };
 
@@ -102,7 +102,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col3, "-sf", col_gray1, "-shb", col_gray1, "-shf", col3, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "alacritty", "-e", "fish", NULL };
 static const char *jgmenucmd[]  = { "jgmenu_run", NULL };
 
 static Key keys[] = {
@@ -115,6 +115,7 @@ static Key keys[] = {
 	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer sset Master 5%+") },	
 	{ MODKEY|ShiftMask,           XK_KP_Add, spawn,      SHCMD("pactl set-sink-volume 0 +5%") },
 	{ MODKEY,             			XK_F1, spawn,      		SHCMD("chromium --force-dark-mode") },			
+	{ MODKEY,             			XK_n, spawn,      		SHCMD("nitrogen") },			
 	{ MODKEY,             			XK_F2, spawn,      		SHCMD("firefox") },			
 	/* { MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },	*/
 	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("thunar") },
@@ -128,8 +129,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.025} },
 	{ MODKEY,                       XK_semicolon,      setmfact,       {.f = +0.025} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,						XK_Tab,		shiftview,		{ .i = 1 } },
-	{ MODKEY,             			XK_q,      killclient,     {0} },
+	{ MODKEY,						     XK_Tab,		shiftview,		{ .i = 1 } },
+	{ MODKEY|ShiftMask,				  XK_Tab,		viewadjacent,	{ .i = +1 } },
+	{ MODKEY,             			  XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -171,9 +173,12 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+	{ ClkTagBar,            0,              Button4,        viewadjacent,   { .i = +1 } },
+	{ ClkTagBar,            0,              Button5,        viewadjacent,   { .i = -1 } },
 	{ ClkWinTitle,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
-	{ ClkWinTitle,				0,					 Button1,		  focusstack,     {.i = +1 } },
-	{ ClkWinTitle,				MODKEY,			 Button1,		  focusstack,     {.i = -1 } },
+	{ ClkWinTitle,				0,					 Button4,		  focusstack,     {.i = +1 } },
+	/* { ClkWinTitle,				MODKEY,			 Button1,		  focusstack,     {.i = -1 } },*/
+	{ ClkWinTitle,				0,					 Button5,		  focusstack,     {.i = -1 } },
 	{ ClkRootWin,				0,					 Button3,		  spawn, {.v = jgmenucmd } },
 };
 
