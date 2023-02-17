@@ -846,7 +846,7 @@ drawbar(Monitor *m)
 	int x, w;
    int wbar = m->ww;
 	int boxs = drw->fonts->h / 9;
-	int boxw = drw->fonts->h / 6 + 2;
+	int boxw = drw->fonts->h / 6 + 1;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -865,7 +865,7 @@ drawbar(Monitor *m)
                 wsbar = wbar;
                 drw_setscheme(drw, scheme[SchemeStatus]);
                 x = wbar - wstext;
-                drw_rect(drw, x, 0, lrpad / 2 - 3, bh, 1, 1); x += lrpad / 2 - 3; /*to keep left padding clean */
+                drw_rect(drw, x, 0, lrpad / 2 - 3, bh, 1, 1); x += lrpad / 2 - 4; /*to keep left padding clean */
                 for (;;) {
                         if ((unsigned char)*stc >= ' ') {
                                 stc++;
@@ -884,7 +884,7 @@ drawbar(Monitor *m)
                         stp = ++stc;
                 }
                 drw_setscheme(drw, scheme[SchemeNorm]);
-                drw_rect(drw, x, 0, wbar - x, bh, 1, 1);  /*to keep right padding clean */
+                drw_rect(drw, x, 0, wbar - x, bh, 1, 2);  /*to keep right padding clean */
 	}
 
 	for (c = m->clients; c; c = c->next) {

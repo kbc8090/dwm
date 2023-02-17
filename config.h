@@ -3,7 +3,7 @@
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 8;       /* gap pixel between windows */
-static const unsigned int snap      = 15;       /* snap pixel */
+static const unsigned int snap      = 12;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 5;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
@@ -11,9 +11,9 @@ static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const Bool viewontag         = True;     /* Switch view on tag switch */
-static const int user_bh            = 21;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
-static const char *fonts[]          = { "Ubuntu Mono:size=12:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Ubuntu Mono:size=12:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
+static const int user_bh            = 20;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const char *fonts[]          = { "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "JetBrainsMono Nerd Font:size=13:style=Medium" };
+static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
 static const char col_gray1[]       = "#1b1e2b";
 static const char col_gray2[]       = "#33384d";
 static const char col_gray3[]       = "#a8b4ff";
@@ -60,7 +60,6 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ "Viewnior",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "vlc",  	NULL,       NULL,       0,       	1,           -1 },	
@@ -84,10 +83,10 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ " ",      tile },    /* first entry is default */
-/*	{ " ",      NULL },     no layout function means floating behavior */
-	{ "履 ",      monocle }
+	{ "履 ",      monocle },
 };
 
+/*	{ " ",      NULL },     no layout function means floating behavior */
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
@@ -102,7 +101,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col3, "-sf", col_gray1, "-shb", col_gray1, "-shf", col3, NULL };
-static const char *termcmd[]  = { "alacritty", "-e", "fish", NULL };
+static const char *termcmd[]  = { "st", NULL };
 static const char *jgmenucmd[]  = { "jgmenu_run", NULL };
 
 static Key keys[] = {
@@ -110,15 +109,16 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             			XK_Return, spawn,          {.v = termcmd } },
 	/* { MODKEY,             			XK_KP_Subtract, spawn,      SHCMD("amixer -D pulse sset Master 5%-") }, */
-	{ MODKEY,             			XK_KP_Subtract, spawn,      SHCMD("amixer sset Master 5%-") },
+	{ MODKEY,             			XK_KP_Subtract, spawn,      SHCMD("pactl -- set-sink-volume 0 -5%; kill -53 $(pidof dwmblocks)") },
 	/* { MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer -D pulse sset Master 5%+") }, */
-	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("amixer sset Master 5%+") },	
+	{ MODKEY,             			XK_KP_Add, spawn,      		SHCMD("pactl -- set-sink-volume 0 +5%; kill -53 $(pidof dwmblocks)") },	
 	{ MODKEY|ShiftMask,           XK_KP_Add, spawn,      SHCMD("pactl set-sink-volume 0 +5%") },
 	{ MODKEY,             			XK_F1, spawn,      		SHCMD("chromium --force-dark-mode") },			
 	{ MODKEY,             			XK_n, spawn,      		SHCMD("nitrogen") },			
+	{ MODKEY|ShiftMask,             			XK_n, spawn,      		SHCMD("nitrogen --set-zoom-fill --random") },			
 	{ MODKEY,             			XK_F2, spawn,      		SHCMD("firefox") },			
 	/* { MODKEY,             			XK_F5, spawn,      		SHCMD("xfce4-appfinder") },	*/
-	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("thunar") },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("pcmanfm") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },	
@@ -128,14 +128,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.025} },
 	{ MODKEY,                       XK_semicolon,      setmfact,       {.f = +0.025} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	// { MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,						     XK_Tab,		shiftview,		{ .i = 1 } },
 	{ MODKEY|ShiftMask,				  XK_Tab,		viewadjacent,	{ .i = +1 } },
 	{ MODKEY,             			  XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
+	// { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 /*	{ ControlMask|ShiftMask,        XK_t,  		spawn,      SHCMD("st") },	*/
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -163,7 +163,7 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	// { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        killclient,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
