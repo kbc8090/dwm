@@ -145,7 +145,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.025} },
 	{ MODKEY,                       XK_semicolon,      setmfact,       {.f = +0.025} },
-	// { MODKEY,                       XK_v, zoom,           {0} },
+	{ MODKEY,                       XK_v, zoom,           {0} },
 	{ MODKEY,						     XK_Tab,		shiftview,		{ .i = 1 } },
 	{ MODKEY|ShiftMask,				  XK_Tab,		viewadjacent,	{ .i = +1 } },
 	{ MODKEY,             			  XK_q,      killclient,     {0} },
@@ -162,6 +162,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_minus,  setgaps,        {.i = -2 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +2 } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
