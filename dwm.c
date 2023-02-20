@@ -865,7 +865,7 @@ drawbar(Monitor *m)
                 wsbar = wbar;
                 drw_setscheme(drw, scheme[SchemeStatus]);
                 x = wbar - wstext;
-                drw_rect(drw, x, 0, lrpad / 2 - 3, bh, 1, 1); x += lrpad / 2 - 4; /*to keep left padding clean */
+                drw_rect(drw, x, 0, lrpad / 2 - 3, bh, 1, 1); x += lrpad / 2 - 6; /*to keep left padding clean */
                 for (;;) {
                         if ((unsigned char)*stc >= ' ') {
                                 stc++;
@@ -1283,9 +1283,10 @@ manage(Window w, XWindowAttributes *wa)
 	if (c->y + HEIGHT(c) > c->mon->my + c->mon->mh)
 		c->y = c->mon->my + c->mon->mh - HEIGHT(c);
 	c->x = MAX(c->x, c->mon->mx);
+   c->y = MAX(c->y, c->mon->wy);
 	/* only fix client y-offset, if the client center might cover the bar */
-	c->y = MAX(c->y, ((c->mon->by == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
-		&& (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
+	// c->y = MAX(c->y, ((c->mon->by == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
+	// 	&& (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
 	c->bw = borderpx;
 
 	wc.border_width = c->bw;
@@ -1357,7 +1358,7 @@ monocle(Monitor *m)
 		if (ISVISIBLE(c))
 			n++;
 	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "履  %d", n);
+		snprintf(m->ltsymbol, sizeof m->ltsymbol, "  %d", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
 		resize(c, m->wx, m->wy + 1, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }

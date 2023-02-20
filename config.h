@@ -14,19 +14,36 @@ static const Bool viewontag         = True;     /* Switch view on tag switch */
 static const int user_bh            = 20;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const char *fonts[]          = { "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "JetBrainsMono Nerd Font:size=13:style=Medium" };
 static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
-static const char col_gray1[]       = "#1b1e2b";
-static const char col_gray2[]       = "#33384d";
-static const char col_gray3[]       = "#a8b4ff";
+
+// static const char col_gray1[]       = "#1b1e2b";
+// static const char col_gray2[]       = "#33384d";
+// static const char col_gray3[]       = "#a8b4ff";
+// static const char col_gray4[]       = "#eeeeee";
+// static const char col_cyan[]        = "#ffb26b";
+// static const char col_blue[]        = "#548aff";
+// static const char col1[]            = "#f07178";
+// static const char col2[]            = "#719eff";
+// static const char col3[]            = "#c387ea";
+// static const char col4[]            = "#82dbff";
+// static const char col5[]            = "#b7e07c";
+// static const char col6[]            = "#ffb26b";
+// static const char col7[]            = "#f07178";
+
+
+static const char col_gray1[]       = "#282828";
+static const char col_gray2[]       = "#32302f";
+static const char col_gray3[]       = "#ebdbb2";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#ffb26b";
-static const char col_blue[]        = "#548aff";
-static const char col1[]            = "#f07178";
-static const char col2[]            = "#719eff";
-static const char col3[]            = "#c387ea";
-static const char col4[]            = "#82dbff";
-static const char col5[]            = "#b7e07c";
-static const char col6[]            = "#ffb26b";
-static const char col7[]            = "#f07178";
+static const char col_cyan[]        = "#fabd2f";
+static const char col_blue[]        = "#83a598";
+static const char col1[]            = "#fb4934";
+static const char col2[]            = "#458588";
+static const char col3[]            = "#d3869b";
+static const char col4[]            = "#8ec07c";
+static const char col5[]            = "#b8bb26";
+static const char col6[]            = "#fe8019";
+static const char col7[]            = "#fb4934";
+
 
 enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
        SchemeCol5, SchemeCol6, SchemeCol7, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeTagsOcc, SchemeInfoSel, SchemeInfoNorm, SchemeSel }; /* color schemes */
@@ -42,10 +59,10 @@ static const char *colors[][3]      = {
 	[SchemeCol6]  = { col_gray1,      col6, col_gray2 },
 	[SchemeCol7]  = { col7,      col_gray1, col_gray2 },
 	[SchemeStatus]  = { col_gray3, col_gray1,  col_gray2  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { col_gray1, col_blue,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  = { col_gray1, col2,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
    [SchemeTagsNorm]  = { col_gray3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
    [SchemeTagsOcc]  = { col6, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-   [SchemeInfoSel]  = { col_gray1, col5,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
+   [SchemeInfoSel]  = { col_gray1, col3,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
    [SchemeInfoNorm]  = { col_gray3, col_gray1,  col_gray2  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
@@ -83,7 +100,7 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ " ",      tile },    /* first entry is default */
-	{ "履 ",      monocle },
+	{ " ",      monocle },
 };
 
 /*	{ " ",      NULL },     no layout function means floating behavior */
@@ -128,7 +145,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.025} },
 	{ MODKEY,                       XK_semicolon,      setmfact,       {.f = +0.025} },
-	// { MODKEY,                       XK_Return, zoom,           {0} },
+	// { MODKEY,                       XK_v, zoom,           {0} },
 	{ MODKEY,						     XK_Tab,		shiftview,		{ .i = 1 } },
 	{ MODKEY|ShiftMask,				  XK_Tab,		viewadjacent,	{ .i = +1 } },
 	{ MODKEY,             			  XK_q,      killclient,     {0} },
@@ -165,7 +182,8 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	// { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        killclient,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 1 } },
+	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 2 } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
