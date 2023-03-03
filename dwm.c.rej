@@ -1,0 +1,85 @@
+--- dwm.c
++++ dwm.c
+@@ -60,7 +61,7 @@
+ 
+ /* enums */
+ enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
+-enum { SchemeNorm, SchemeSel }; /* color schemes */
++enum { SchemeNorm, SchemeSel, SchemeHid }; /* color schemes */
+ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
+        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
+@@ -127,6 +130,7 @@ struct Monitor {
+ 	unsigned int tagset[2];
+ 	int showbar;
+ 	int topbar;
++	int hidsel;
+ 	Client *clients;
+ 	Client *sel;
+ 	Client *stack;
+@@ -171,13 +175,17 @@ static void expose(XEvent *e);
+ static void focus(Client *c);
+ static void focusin(XEvent *e);
+ static void focusmon(const Arg *arg);
+-static void focusstack(const Arg *arg);
++static void focusstackvis(const Arg *arg);
++static void focusstackhid(const Arg *arg);
++static void focusstack(int inc, int vis);
+ static Atom getatomprop(Client *c, Atom prop);
+ static int getrootptr(int *x, int *y);
+ static long getstate(Window w);
+ static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
+ static void grabbuttons(Client *c, int focused);
+ static void grabkeys(void);
++static void hide(const Arg *arg);
++static void hidewin(Client *c);
+ static void incnmaster(const Arg *arg);
+ static void keypress(XEvent *e);
+ static void killclient(const Arg *arg);
+@@ -207,6 +215,9 @@ static void setlayout(const Arg *arg);
+ static void setmfact(const Arg *arg);
+ static void setup(void);
+ static void seturgent(Client *c, int urg);
++static void show(const Arg *arg);
++static void showall(const Arg *arg);
++static void showwin(Client *c);
+ static void showhide(Client *c);
+ static void sigchld(int unused);
+ static void spawn(const Arg *arg);
+@@ -217,6 +228,7 @@ static void togglebar(const Arg *arg);
+ static void togglefloating(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
++static void togglewin(const Arg *arg);
+ static void unfocus(Client *c, int setfocus);
+ static void unmanage(Client *c, int destroyed);
+ static void unmapnotify(XEvent *e);
+@@ -443,10 +455,25 @@ buttonpress(XEvent *e)
+ 			arg.ui = 1 << i;
+ 		} else if (ev->x < x + blw)
+ 			click = ClkLtSymbol;
+-		else if (ev->x > selmon->ww - (int)TEXTW(stext))
++		/* 2px right padding */
++		else if (ev->x > selmon->ww - TEXTW(stext) + lrpad - 2)
+ 			click = ClkStatusText;
+-		else
+-			click = ClkWinTitle;
++		else {
++			x += blw;
++			c = m->clients;
++
++			if (c) {
++				do {
++					if (!ISVISIBLE(c))
++						continue;
++					else
++						x +=(1.0 / (double)m->bt) * m->btw;
++				} while (ev->x > x && (c = c->next));
++
++				click = ClkWinTitle;
++				arg.v = c;
++			}
++		}
+ 	} else if ((c = wintoclient(ev->window))) {
+ 		focus(c);
+ 		restack(selmon);
