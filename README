@@ -1,48 +1,48 @@
-dwm - dynamic window manager
-============================
-dwm is an extremely fast, small, and dynamic window manager for X.
+=== DWM Patches, Changes, and Documentation ===
 
+Status Bar: DWMBlocks-Async
+- Tried to create POSIX compliant scripts where I can and are as fast as I can manage to get them.  They use nawk(awk) for output since printf couldnt play nicely with dwmblocks.
+- Volume script uses a pkill signal to update it, everything else runs on sane intervals
 
-Requirements
-------------
-In order to build dwm you need the Xlib header files.
+/// Patches & Notes \\\
+ - Actual Fullscreen - Fullscreens given window and hides anything behind it
+ - Always Center - Always centers floating windows
+ - Autostart - Adds autostart script
+ - Awesomebar - Window Titles that act like the bar from AwesomeWM, fully mouse functionality
+ - Bar Height - This has been moved to the new DPI scaling method of using fontheight + x
+ - Bottomstack Layout - Integrated with pertag and gaps
+ - Colorbar - Added more colors and new color for active tags
+ - Dmenumatchtop - Dmenu follows the topbar/bottombar position
+ - DWMBlocks Systray - Patch that integrates DWMBlocks well with systray as well as a version of the statuscolors patch
+ - Float Border Color - Different border color if window is floating
+ - Fix Transparent Borders - Colors ARGB border as full opaque even with compositor running
+ - Focus on Click - Uses mouse clicks instead of sloppy focus on cursor entry/exit.  Did this one manually and kept code but commented it out. Sloppy focus is anti-suckless anyway imo.
+ - Fullgaps Toggle - Integrated this with PerTag to have whatever gap on any tag
+ - NoBorderFlicker - Sounded good, Chris Down knows what he's doing
+ - No Monocle Borders - Disable Borders in monocle mode
+ - Pertag - Preserves mostly everything on a per tag basis
+ - Preserve on Restart - Keeps windows on their respective tag when restarting DWM
+ - Quit Prompt - Simple quit prompt powered by Dmenu
+ - Restartsig - MOD+SHIFT+R restarts DWM.
+ - Rotate Stack - MOD+SHIFT+J/K rotates the window around the stack
+ - Set Border Pixels - Increase and Decrease border pixels also integrated with PerTag
+ - Shiftview Clients - MOD+TAB/MOD+SHIFT+TAB switches between active tags
+ - Systray
+ - Toggle Border - Toggles the border on a given window if needed
+ - View on Tag - Switches Tags when sending a window to whatever tag
+ - Winicon - Adds the win icon in the title field
+ - View & Tag Adjacent - Ability to scroll thru workspaces regardless if active or empty with mousewheel or send windows to adjacent workspaces
 
-
-Installation
-------------
-Edit config.mk to match your local setup (dwm is installed into
-the /usr/local namespace by default).
-
-Afterwards enter the following command to build and install dwm (if
-necessary as root):
-
-    make clean install
-
-
-Running dwm
------------
-Add the following line to your .xinitrc to start dwm using startx:
-
-    exec dwm
-
-In order to connect dwm to a specific display, make sure that
-the DISPLAY environment variable is set correctly, e.g.:
-
-    DISPLAY=foo.bar:1 exec dwm
-
-(This will start dwm on display :1 of the host foo.bar.)
-
-In order to display status info in the bar, you can do something
-like this in your .xinitrc:
-
-    while xsetroot -name "`date` `uptime | sed 's/.*,//'`"
-    do
-    	sleep 1
-    done &
-    exec dwm
-
-
-Configuration
--------------
-The configuration of dwm is done by creating a custom config.h
-and (re)compiling the source code.
+/// Other Misc Changes \\\
+ - Edited the bar height to be 1 px larger to make a 1px border along the bottom of the bar for a cleaner look.  Had to edit monocle section as well.
+ - Hacked around with the systray to get 1px bottom border working there as well, using 0px spacing with proper foreground and background colors makes this look seamless.
+ - Added a dwmsystray hint to the systray so picom can recognize not to use shadows there.
+ - Added dwm to picom to disable shadows on top bar.
+ - Changed layout symbols
+ - Created a Jgmenu when right clicking the root window or the title window
+ - Mousewheel scrolls thru windows in the title window (including hidden windows from awesomebar)
+ - Middleclick closes the current window
+ - Adjusted rectangles to be smaller being drawn on tags
+ - Removed rectangles in title window for floating clients
+ - Removed restart option from quit prompt menu and just used restartsig patch instead for a keybind
+ - Autostart file at $HOME/.local/share/dwm/autostart.sh
