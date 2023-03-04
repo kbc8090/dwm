@@ -13,7 +13,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 2;        /* 2 is the default spacing around the bar's font */
 static const Bool viewontag         = True;     /* Switch view on tag switch */
-static const char *fonts[]          = { "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "JetBrainsMono Nerd Font:size=13:style=Medium" };
+static const char *fonts[]          = { "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "CaskaydiaCove Nerd Font:size=11:style=Medium", "NotoColorEmoji:size=10" };
 static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
 
 
@@ -91,7 +91,8 @@ static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ " ",      tile },    /* first entry is default */
 	{ " ",      monocle },
-	{ "TTT",      bstack },
+	{ " ",      bstack },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
@@ -151,10 +152,12 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	// { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	// { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	// { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+	// { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,		XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ShiftMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_Tab,       shiftviewclients, { .i = +1 } },
 	{ MODKEY|ShiftMask,             XK_Tab, shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -3 } },
@@ -189,15 +192,16 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+	{ ClkLtSymbol,          0,              Button1,        cyclelayout,      { .i = +1 } },
+	{ ClkLtSymbol,          0,              Button3,        cyclelayout,      { .i = -1 } },
 	// { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,				0,			 Button1,		  togglewin,     {0} },
 	{ ClkWinTitle,          0,              Button2,        killclient,           {0} },
 	{ ClkWinTitle,          MODKEY,              Button2,        killhidden,           {0} },
 	// { ClkStatusText,        0,              Button3,        spawn, {.v = jgmenucmd } },
-   { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+   { ClkStatusText,        0,              Button1,        sigdwmblocks,   { .i = 1 } },
    { ClkStatusText,        0,              Button2,        sigdwmblocks, { .i = 2 } },
-   { ClkStatusText,        0,              Button3,        sigdwmblocks,   {.v = jgmenucmd} },
+   { ClkStatusText,        0,              Button3,        sigdwmblocks,   { .i = 3 } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },

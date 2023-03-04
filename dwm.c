@@ -208,6 +208,7 @@ static void configure(Client *c);
 static void configurenotify(XEvent *e);
 static void configurerequest(XEvent *e);
 static Monitor *createmon(void);
+static void cyclelayout(const Arg *arg);
 static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
@@ -547,7 +548,7 @@ buttonpress(XEvent *e)
 	Monitor *m;
 	XButtonPressedEvent *ev = &e->xbutton;
 
-	click = ClkRootWin;
+	// click = ClkRootWin;
 	/* focus monitor if necessary */
 	if ((m = wintomon(ev->window)) && m != selmon) {
 		unfocus(selmon->sel, 1);
@@ -580,7 +581,8 @@ buttonpress(XEvent *e)
 			}
 			click = ClkWinTitle;
 		} else if ((x = wsbar - RSPAD - ev->x) > 0 && (x -= wstext - LSPAD - RSPAD) <= 0) {
-			click = ClkStatusText;
+        updatedwmblockssig(x);
+        click = ClkStatusText;
 		} else {
 			return;
 		} 
@@ -880,6 +882,23 @@ createmon(void)
 }
 
 void
+cyclelayout(const Arg *arg) {
+	Layout *l;
+	for(l = (Layout *)layouts; l != selmon->lt[selmon->sellt]; l++);
+	if(arg->i > 0) {
+		if(l->symbol && (l + 1)->symbol)
+			setlayout(&((Arg) { .v = (l + 1) }));
+		else
+			setlayout(&((Arg) { .v = layouts }));
+	} else {
+		if(l != layouts && (l - 1)->symbol)
+			setlayout(&((Arg) { .v = (l - 1) }));
+		else
+			setlayout(&((Arg) { .v = &layouts[LENGTH(layouts) - 2] }));
+	}
+}
+
+void
 destroynotify(XEvent *e)
 {
 	Client *c;
@@ -1036,9 +1055,9 @@ drawbar(Monitor *m)
     //         }
             // drw_text(drw, x, 0, tabw, bh, lrpad / 2 + (m->sel->icon ? m->sel->icw + ICONSPACING : 0), c->name, 0);
             // if (m->sel->icon) drw_pic(drw, x + lrpad / 2, (bh - m->sel->ich) / 2, m->sel->icw, m->sel->ich, m->sel->icon);
-      drw_text(drw, x, 0, tabw, bh, lrpad / 2 + (c->icon ? c->icw + ICONSPACING : 0), c->name, 0);
+      drw_text(drw, x, 0, tabw, bh, lrpad / 3 + (c->icon ? c->icw + ICONSPACING : 0), c->name, 0);
 			//drw_text(drw, x, 0, tabw, bh, lrpad / 2 + (m->sel->icon ? m->sel->icw + ICONSPACING : 0), m->sel->name, 0);
-			if (c->icon) drw_pic(drw, x + lrpad / 2, (bh - c->ich) / 2, c->icw, c->ich, c->icon);
+			if (c->icon) drw_pic(drw, x + lrpad / 3, (bh - c->ich) / 2, c->icw, c->ich, c->icon);
 			x += tabw;
             // drw_text(drw, x, 0, tabw, bh, lrpad / 2, c->name, 0);
 				// x += tabw;
@@ -1663,29 +1682,47 @@ monocle(Monitor *m)
 		resize(c, m->wx, m->wy + 1, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
 
-void
-motionnotify(XEvent *e)
-{
-	static Monitor *mon = NULL;
-        int x;
-	Monitor *m;
-	XMotionEvent *ev = &e->xmotion;
+// void
+// motionnotify(XEvent *e)
+// {
+// 	static Monitor *mon = NULL;
+//         int x;
+// 	Monitor *m;
+// 	XMotionEvent *ev = &e->xmotion;
+//
+//         if (ev->window == root) {
+//                 if ((m = recttomon(ev->x_root, ev->y_root, 1, 1)) != mon && mon) {
+//                         unfocus(selmon->sel, 1);
+//                         selmon = m;
+//                         focus(NULL);
+//                 }
+//                 mon = m;
+//         } else if (ev->window == selmon->barwin && (x = wsbar - RSPAD - ev->x) > 0
+//                                                 && (x -= wstext - LSPAD - RSPAD) <= 0)
+//                 updatedwmblockssig(x);
+//         else if (selmon->statushandcursor) {
+//                 selmon->statushandcursor = 0;
+//                 XDefineCursor(dpy, selmon->barwin, cursor[CurHand]->cursor);
+//         }
+// }
 
-        if (ev->window == root) {
-                if ((m = recttomon(ev->x_root, ev->y_root, 1, 1)) != mon && mon) {
-                        unfocus(selmon->sel, 1);
-                        selmon = m;
-                        focus(NULL);
-                }
-                mon = m;
-        } else if (ev->window == selmon->barwin && (x = wsbar - RSPAD - ev->x) > 0
-                                                && (x -= wstext - LSPAD - RSPAD) <= 0)
-                updatedwmblockssig(x);
-        else if (selmon->statushandcursor) {
-                selmon->statushandcursor = 0;
-                XDefineCursor(dpy, selmon->barwin, cursor[CurNormal]->cursor);
-        }
-}
+
+ void
+ motionnotify(XEvent *e)
+ {
+ 	static Monitor *mon = NULL;
+ 	Monitor *m;
+ 	XMotionEvent *ev = &e->xmotion;
+ 
+ 	if (ev->window != root)
+ 		return;
+ 	if ((m = recttomon(ev->x_root, ev->y_root, 1, 1)) != mon && mon) {
+ 		unfocus(selmon->sel, 1);
+ 		selmon = m;
+ 		focus(NULL);
+ 	}
+ 	mon = m;
+ }
 
 void
 movemouse(const Arg *arg)
@@ -3618,15 +3655,15 @@ bstack(Monitor *m)
 	for (i = 0, mx = tx = m->pertag->gap[m->pertag->curtag]->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			w = (m->ww - mx) / (MIN(n, m->nmaster) - i) - m->pertag->gap[m->pertag->curtag]->gappx;
-			resize(c, m->wx + mx, m->wy + m->pertag->gap[m->pertag->curtag]->gappx, w - 2*c->bw, mh - 2*c->bw - m->pertag->gap[m->pertag->curtag]->gappx*(5-ns)/2, 0);
+			resize(c, m->wx + mx, m->wy + m->pertag->gap[m->pertag->curtag]->gappx, w - (2*c->bw), mh - (2*c->bw) - m->pertag->gap[m->pertag->curtag]->gappx*(5-ns)/2, 0);
 			if(mx + WIDTH(c) + m->pertag->gap[m->pertag->curtag]->gappx < m->mw)
 				mx += WIDTH(c) + m->pertag->gap[m->pertag->curtag]->gappx;
 		} else {
 			w = (m->ww - tx) / (n - i) - m->pertag->gap[m->pertag->curtag]->gappx;
 			if(m->nmaster == 0)
-				resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - 2*c->bw - m->pertag->gap[m->pertag->curtag]->gappx, False);
+				resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - (2*c->bw) - m->pertag->gap[m->pertag->curtag]->gappx, False);
 			else
-				resize(c, m->wx + tx, m->wy + mh + m->pertag->gap[m->pertag->curtag]->gappx/ns, w - (2*c->bw), m->wh - mh - 2*c->bw - m->pertag->gap[m->pertag->curtag]->gappx*(5-ns)/2, False);
+				resize(c, m->wx + tx, m->wy + mh + m->pertag->gap[m->pertag->curtag]->gappx/ns, w - (2*c->bw), m->wh - mh - (2*c->bw) - m->pertag->gap[m->pertag->curtag]->gappx*(5-ns)/2, False);
 			if (tx + WIDTH(c) + m->pertag->gap[m->pertag->curtag]->gappx < m->mw)
 				tx += WIDTH(c) + m->pertag->gap[m->pertag->curtag]->gappx;
 		}
