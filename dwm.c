@@ -212,7 +212,7 @@ static void cyclelayout(const Arg *arg);
 static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
-static Monitor *dirtomon(int dir);
+// static Monitor *dirtomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
 static void enqueue(Client *c);
@@ -221,7 +221,7 @@ static void enqueuestack(Client *c);
 static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
-static void focusmon(const Arg *arg);
+// static void focusmon(const Arg *arg);
 // static void focusstack(const Arg *arg);
 static void focusstackvis(const Arg *arg);
 static void focusstackhid(const Arg *arg);
@@ -288,7 +288,7 @@ static void spawn(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagadjacent(const Arg *arg);
-static void tagmon(const Arg *arg);
+// static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void toggleborder(const Arg *arg);
@@ -581,7 +581,7 @@ buttonpress(XEvent *e)
 			}
 			click = ClkWinTitle;
 		} else if ((x = wsbar - RSPAD - ev->x) > 0 && (x -= wstext - LSPAD - RSPAD) <= 0) {
-        updatedwmblockssig(x);
+        // updatedwmblockssig(x);
         click = ClkStatusText;
 		} else {
 			return;
@@ -936,20 +936,20 @@ detachstack(Client *c)
 	}
 }
 
-Monitor *
-dirtomon(int dir)
-{
-	Monitor *m = NULL;
-
-	if (dir > 0) {
-		if (!(m = selmon->next))
-			m = mons;
-	} else if (selmon == mons)
-		for (m = mons; m->next; m = m->next);
-	else
-		for (m = mons; m->next != selmon; m = m->next);
-	return m;
-}
+// Monitor *
+// dirtomon(int dir)
+// {
+// 	Monitor *m = NULL;
+//
+// 	if (dir > 0) {
+// 		if (!(m = selmon->next))
+// 			m = mons;
+// 	} else if (selmon == mons)
+// 		for (m = mons; m->next; m = m->next);
+// 	else
+// 		for (m = mons; m->next != selmon; m = m->next);
+// 	return m;
+// }
 
 void
 drawbar(Monitor *m)
@@ -1191,19 +1191,19 @@ focusin(XEvent *e)
 		setfocus(selmon->sel);
 }
 
-void
-focusmon(const Arg *arg)
-{
-	Monitor *m;
-
-	if (!mons->next)
-		return;
-	if ((m = dirtomon(arg->i)) == selmon)
-		return;
-	unfocus(selmon->sel, 0);
-	selmon = m;
-	focus(NULL);
-}
+// void
+// focusmon(const Arg *arg)
+// {
+// 	Monitor *m;
+//
+// 	if (!mons->next)
+// 		return;
+// 	if ((m = dirtomon(arg->i)) == selmon)
+// 		return;
+// 	unfocus(selmon->sel, 0);
+// 	selmon = m;
+// 	focus(NULL);
+// }
 
 void
 focusstackvis(const Arg *arg) {
@@ -2773,13 +2773,13 @@ tagadjacent(const Arg *arg) {
 	arrange(selmon);
 }
 
-void
-tagmon(const Arg *arg)
-{
-	if (!selmon->sel || !mons->next)
-		return;
-	sendmon(selmon->sel, dirtomon(arg->i));
-}
+// void
+// tagmon(const Arg *arg)
+// {
+// 	if (!selmon->sel || !mons->next)
+// 		return;
+// 	sendmon(selmon->sel, dirtomon(arg->i));
+// }
 
 void
 tile(Monitor *m)
@@ -2925,6 +2925,9 @@ void
 togglewin(const Arg *arg)
 {
   Client *c = (Client*)arg->v;
+
+  if (!c)
+  return;
 
   if (c == selmon->sel) {
     hidewin(c);
