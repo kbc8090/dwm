@@ -17,7 +17,7 @@ static const char *fonts[]          = { "JetBrains Mono:size=10:style=ExtraBold:
 static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
 
 
-static const char col_gray1[]       = "#212433";
+static const char col_gray1[]       = "#24283b";
 static const char col_gray2[]       = "#4f5470";
 static const char col_gray3[]       = "#a8b4ff";
 static const char col_gray4[]       = "#eeeeee";
@@ -108,7 +108,7 @@ static const Layout layouts[] = {
 
 #define STATUSBAR "dwmblocks"
 
-#define ICONSIZE 16   /* icon size */
+#define ICONSIZE 17   /* icon size */
 #define ICONSPACING 6 /* space between icon and title */
 
 /* commands */
