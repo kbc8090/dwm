@@ -1072,7 +1072,7 @@ drawbar(Monitor *m)
 	m->bt = n;
 	m->btw = w;
 //Adding bh + 1 so we have a 1 pixel border at the bottom of the bar
-        XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, wbar, bh + 1);
+        XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, wbar + getsystraywidth(), bh + 1);
 	drw_map(drw, m->barwin, 0, 0, wbar, bh + 1);
 }
 
@@ -3073,7 +3073,7 @@ updatebarpos(Monitor *m)
 }
 
 void
-updateclientlist()
+updateclientlist(void)
 {
 	Client *c;
 	Monitor *m;
@@ -3353,10 +3353,10 @@ updatesystray(void)
 		/* init systray */
 		if (!(systray = (Systray *)calloc(1, sizeof(Systray))))
 			die("fatal: could not malloc() %u bytes\n", sizeof(Systray));
-		systray->win = XCreateSimpleWindow(dpy, root, x, m->by, w, bh, 0, 0, scheme[SchemeSystray][ColBg].pixel);
+		systray->win = XCreateSimpleWindow(dpy, root, x, m->by, w, bh, 0, 0, scheme[SchemeSystray][ColFg].pixel);
 		wa.event_mask        = ButtonPressMask | ExposureMask;
 		wa.override_redirect = True;
-		wa.background_pixel  = scheme[SchemeSystray][ColBg].pixel;
+		wa.background_pixel  = scheme[SchemeSystray][ColFg].pixel;
 		XSelectInput(dpy, systray->win, SubstructureNotifyMask);
 		XChangeProperty(dpy, systray->win, netatom[NetSystemTrayOrientation], XA_CARDINAL, 32,
 				PropModeReplace, (unsigned char *)&netatom[NetSystemTrayOrientationHorz], 1);
@@ -3390,15 +3390,15 @@ updatesystray(void)
 	x -= w;
    // Adding 1px on bottom of Systray so the height matches the 1px black bottomborder
    // Hack is to keep 0px between icons otherwise the black background shows thru
-	XMoveResizeWindow(dpy, systray->win, x, m->by, w, bh + 1);
-	wc.x = x; wc.y = m->by; wc.width = w; wc.height = bh + 1;
+	XMoveResizeWindow(dpy, systray->win, x, m->by, w, bh);
+	wc.x = x; wc.y = m->by; wc.width = w; wc.height = bh;
 	wc.stack_mode = Above; wc.sibling = m->barwin;
 	XConfigureWindow(dpy, systray->win, CWX|CWY|CWWidth|CWHeight|CWSibling|CWStackMode, &wc);
 	XMapWindow(dpy, systray->win);
 	XMapSubwindows(dpy, systray->win);
 	/* redraw background */
 	XSetForeground(dpy, drw->gc, scheme[SchemeSystray][ColBg].pixel);
-	XFillRectangle(dpy, systray->win, drw->gc, 0, 0, w, bh + 1);
+	XFillRectangle(dpy, systray->win, drw->gc, 1, 0, w, bh);
 	XSync(dpy, False);
 }
 
