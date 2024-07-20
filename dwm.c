@@ -1073,7 +1073,7 @@ drawbar(Monitor *m)
 	m->btw = w;
 //Adding bh + 1 so we have a 1 pixel border at the bottom of the bar
         XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, wbar + getsystraywidth(), bh + 1);
-	drw_map(drw, m->barwin, 0, 0, wbar, bh + 1);
+	drw_map(drw, m->barwin, 0, 0, wbar + getsystraywidth(), bh + 1);
 }
 
 void
@@ -1872,7 +1872,7 @@ quit(const Arg *arg)
 void
 quitprompt(const Arg *arg)
 {
-	FILE *pp = popen("echo \"No\nYes\" | dmenu -i -c -bw 2 -h 35 -fn \"JetBrains Mono:size=14:style=Bold\" -nf \"#a8b4ff\" -sb \"#ffb26b\" -sf \"#1b1e2b\" -p \"Quit DWM?\"", "r");
+	FILE *pp = popen("echo \"No\nYes\" | dmenu -i -c -bw 2 -h 36 -fn \"JetBrains Mono:size=14:style=ExtraBold\" -nf \"#a8b4ff\" -sb \"#ffb26b\" -sf \"#1b1e2b\" -p \"Quit DWM?\"", "r");
 	if(pp != NULL) {
 		char buf[1024];
 		if (fgets(buf, sizeof(buf), pp) == NULL) {
