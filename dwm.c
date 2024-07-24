@@ -241,6 +241,7 @@ static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
 static void killhidden(const Arg *arg);
+static void killall(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -1527,22 +1528,66 @@ keypress(XEvent *e)
 			keys[i].func(&(keys[i].arg));
 }
 
-void
+  void
 killclient(const Arg *arg)
 {
-	if (!selmon->sel)
-		return;
+  if (!selmon->sel)
+    return;
 
-	if (!sendevent(selmon->sel->win, wmatom[WMDelete], NoEventMask, wmatom[WMDelete], CurrentTime, 0 , 0, 0)) {
-		XGrabServer(dpy);
-		XSetErrorHandler(xerrordummy);
-		XSetCloseDownMode(dpy, DestroyAll);
-		XKillClient(dpy, selmon->sel->win);
-		XSync(dpy, False);
-		XSetErrorHandler(xerror);
-		XUngrabServer(dpy);
-	}
+  if (!sendevent(selmon->sel->win, wmatom[WMDelete], NoEventMask, wmatom[WMDelete], CurrentTime, 0 , 0, 0)) {
+    XGrabServer(dpy);
+    XSetErrorHandler(xerrordummy);
+    XSetCloseDownMode(dpy, DestroyAll);
+    XKillClient(dpy, selmon->sel->win);
+    XSync(dpy, False);
+    XSetErrorHandler(xerror);
+    XUngrabServer(dpy);
+  }
 }
+
+  void
+killhidden(const Arg *arg)
+{
+  Client *c = (Client*)arg->v;
+
+  if (c == 0)
+    return;
+  if (HIDDEN(c)) {
+    //focus(c);
+    killclient(NULL);
+  }
+  if (ISVISIBLE(c)) {
+    focus(c);
+    killclient(NULL);
+  }
+}
+
+void
+killwin(const Window *win) {
+  XGrabServer(dpy);
+  XSetErrorHandler(xerrordummy);
+  XSetCloseDownMode(dpy, DestroyAll);
+  XKillClient(dpy, *win);
+  XSync(dpy, False);
+  XSetErrorHandler(xerror);
+  XUngrabServer(dpy);
+}
+
+void
+killall(const Arg *arg)
+{
+  Client *i = NULL;
+
+  if (!selmon->sel)
+    return;
+
+  for (i = selmon->clients; i; i = i->next) {
+    if (ISVISIBLE(i) && i != selmon->sel && !sendevent(i->win, wmatom[WMDelete], NoEventMask, wmatom[WMDelete], CurrentTime, 0 , 0, 0)) {
+      killwin(&(i->win));
+    }
+  }
+}
+
 
 void
 manage(Window w, XWindowAttributes *wa)
@@ -2950,23 +2995,6 @@ togglewin(const Arg *arg)
   }
 }
 
-void
-killhidden(const Arg *arg)
-{
-  Client *c = (Client*)arg->v;
-
-  if (c == selmon->sel)
-    return;
-  if (HIDDEN(c)) {
-    focus(c);
-    killclient(NULL);
-  }
-
-  if (ISVISIBLE(c)) {
-    focus(c);
-    killclient(NULL);
-  }
-}
 
 void
 unfocus(Client *c, int setfocus)

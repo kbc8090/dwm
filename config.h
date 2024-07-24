@@ -6,7 +6,7 @@ static const unsigned int snap      = 12;       /* snap pixel */
 static const Gap default_gap        = {.isgap = 1, .realgap = 8, .gappx = 8};
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
-static const unsigned int systrayspacing = 4;   /* systray spacing */
+static const unsigned int systrayspacing = 3;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -144,6 +144,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_v, zoom,           {0} },
 // { MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
+  	{ MODKEY|ShiftMask,             XK_x,      killall,      {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[2]} },
@@ -196,8 +197,8 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button3,        cyclelayout,      { .i = -1 } },
 	// { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,				0,			 Button1,		  togglewin,     {0} },
-	{ ClkWinTitle,          0,              Button2,        killclient,           {0} },
-	{ ClkWinTitle,          MODKEY,              Button2,        killhidden,           {0} },
+	{ ClkWinTitle,          0,              Button2,        killhidden,           {0} },
+//	{ ClkWinTitle,          MODKEY,              Button2,        killhidden,           {0} },
 	// { ClkStatusText,        0,              Button3,        spawn, {.v = jgmenucmd } },
    { ClkStatusText,        0,              Button1,        sigdwmblocks,   { .i = 1 } },
    { ClkStatusText,        0,              Button2,        sigdwmblocks, { .i = 2 } },
