@@ -1529,7 +1529,7 @@ keypress(XEvent *e)
 			keys[i].func(&(keys[i].arg));
 }
 
-  void
+void
 killclient(const Arg *arg)
 {
   if (!selmon->sel)
@@ -1546,19 +1546,19 @@ killclient(const Arg *arg)
   }
 }
 
-  void
+void
 killhidden(const Arg *arg)
 {
   Client *c = (Client*)arg->v;
 
   if (c == 0)
     return;
-  if (HIDDEN(c)) {
-    //focus(c);
-    killclient(NULL);
-  }
   if (ISVISIBLE(c)) {
     focus(c);
+    killclient(NULL);
+  }
+  if (HIDDEN(c)) {
+    //focus(c);
     killclient(NULL);
   }
 }
@@ -1715,17 +1715,20 @@ maprequest(XEvent *e)
 void
 monocle(Monitor *m)
 {
-	unsigned int n = 0;
-	Client *c;
+  unsigned int n = 0;
+  Client *c;
 
-	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "  %d", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-     // Adding the + 1 so monocle mode gets the 1px border between the bar and the window for a cleaner look
-		resize(c, m->wx, m->wy + 1, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
+  for (c = m->clients; c; c = c->next)
+    if (ISVISIBLE(c))
+      n++;
+  if (n > 0) /* override layout symbol */
+    snprintf(m->ltsymbol, sizeof m->ltsymbol, "  %d", n);
+  for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
+    // Adding the + 1 so monocle mode gets the 1px border between the bar and the window for a cleaner look
+    if (selmon->showbar)
+      resize(c, m->wx, m->wy + 1, m->ww - 2 * c->bw, m->wh - 2 * c->bw - 1, 0);
+    else if (!selmon->showbar)
+      resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
 
 // void
