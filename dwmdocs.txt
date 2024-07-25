@@ -46,3 +46,13 @@ Status Bar: DWMBlocks-Async
  - Adjusted rectangles to be smaller being drawn on tags
  - Removed rectangles in title window for floating clients
  - Removed restart option from quit prompt menu and just used restartsig patch instead for a keybind
+
+ /// 7-25-2024 Refinements \\\
+ - Fixed Systray icon padding/spacing and coloring so it works correclty
+ - Fixed 1px black bar under systray to be complete length of the screen
+ - Fixed Monocle mode both with bar showing and not to be the right size window
+ - Fixed mouse actions with Awesomebar to work actually like awesome now, simple middle click closes windows regardless of focus/minimized.
+ - Changed spawn function to use spawn.h, stolen from Chris Titus and Luke Smith.
+ - Various small improvements from the dwm repository
+ - Added error message for weather dwmblocks
+ - Added killall patch, which just kills all windows other than currently selected
