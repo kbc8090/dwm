@@ -56,3 +56,4 @@ Status Bar: DWMBlocks-Async
  - Various small improvements from the dwm repository
  - Added error message for weather dwmblocks
  - Added killall patch, which just kills all windows other than currently selected
+ - Added refresh rate patch, no more 60fps
