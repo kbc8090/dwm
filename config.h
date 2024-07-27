@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 12;       /* snap pixel */
+static const unsigned int snap      = 10;       /* snap pixel */
 static const Gap default_gap        = {.isgap = 1, .realgap = 8, .gappx = 8};
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
@@ -50,11 +50,11 @@ static const char *colors[][3]      = {
 	[SchemeTagsSel]  = { col_gray1, col2,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
    [SchemeTagsNorm]  = { col_gray3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
    [SchemeTagsOcc]  = { col6, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-   [SchemeInfoSel]  = { col_gray1, col3,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
+   [SchemeInfoSel]  = { col_gray1, col5,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
    [SchemeInfoNorm]  = { col_gray3, col_gray1,  col_gray2  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col4  },
 	[SchemeUnsel]  = { col_gray2, col_gray1,  col4  },
-	[SchemeHid]  = { col3, col_gray1,  col4  },
+	[SchemeHid]  = { col5, col_gray1,  col4  },
 	[SchemeSystray]  = { col_gray1, col_gray1, col8  },
 };
 
@@ -108,7 +108,7 @@ static const Layout layouts[] = {
 
 #define STATUSBAR "dwmblocks"
 
-#define ICONSIZE 17   /* icon size */
+#define ICONSIZE 18   /* icon size */
 #define ICONSPACING 6 /* space between icon and title */
 
 /* commands */
@@ -203,7 +203,7 @@ static const Button buttons[] = {
    { ClkStatusText,        0,              Button1,        sigdwmblocks,   { .i = 1 } },
    { ClkStatusText,        0,              Button2,        sigdwmblocks, { .i = 2 } },
    { ClkStatusText,        0,              Button3,        sigdwmblocks,   { .i = 3 } },
-	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
+	{ ClkClientWin,         MODKEY,         Button1,        moveorplace,      { .i = 2 } },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
