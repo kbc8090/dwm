@@ -245,6 +245,7 @@ static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
 static void killhidden(const Arg *arg);
+static void closewin(const Arg *arg);
 static void killall(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
@@ -1167,7 +1168,7 @@ focus(Client *c)
 		if (c->mon != selmon)
 			selmon = c->mon;
 		if (c->isurgent)
-			seturgent(c, 0);
+        seturgent(c, 0);
 		detachstack(c);
 		attachstack(c);
 		grabbuttons(c, 1);
@@ -1570,6 +1571,24 @@ killhidden(const Arg *arg)
   }
 }
 
+void closewin(const Arg *arg) {
+  Client *c = (Client *)arg->v;
+
+  if (!c)
+    return;
+
+  if (!sendevent(c->win, wmatom[WMDelete], NoEventMask, wmatom[WMDelete], CurrentTime, 0, 0, 0)) {
+    XGrabServer(dpy);
+    XSetErrorHandler(xerrordummy);
+    XSetCloseDownMode(dpy, DestroyAll);
+    XKillClient(dpy, c->win);
+    XSync(dpy, False);
+    XSetErrorHandler(xerror);
+    XUngrabServer(dpy);
+  }
+}
+
+
 void
 killwin(const Window *win) {
   XGrabServer(dpy);
@@ -1683,11 +1702,11 @@ manage(Window w, XWindowAttributes *wa)
 	if (c->mon == selmon)
 		unfocus(selmon->sel, 0);
 	c->mon->sel = c;
-	arrange(c->mon);
-	// XMapWindow(dpy, c->win);
-	if (!HIDDEN(c))
-		XMapWindow(dpy, c->win);
-	focus(NULL);
+   arrange(c->mon);
+   // XMapWindow(dpy, c->win);
+   if (!HIDDEN(c))
+     XMapWindow(dpy, c->win);
+   focus(NULL);
 }
 
 void
@@ -2252,7 +2271,7 @@ restack(Monitor *m)
 	if (m->lt[m->sellt]->arrange) {
 		wc.stack_mode = Below;
       // Comment this out so in monocle mode picom shadows dont appear under the bar
-		// wc.sibling = m->barwin;
+		wc.sibling = m->barwin;
 		for (c = m->stack; c; c = c->snext)
 			if (!c->isfloating && ISVISIBLE(c)) {
 				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);
@@ -2275,19 +2294,19 @@ rotatestack(const Arg *arg)
 		for (c = nexttiled(selmon->clients); c && nexttiled(c->next); c = nexttiled(c->next));
 		if (c){
 			detach(c);
-			attach(c);
 			detachstack(c);
+			attach(c);
 			attachstack(c);
 		}
 	} else {
 		if ((c = nexttiled(selmon->clients))){
 			detach(c);
-			enqueue(c);
 			detachstack(c);
+			enqueue(c);
 			enqueuestack(c);
 		}
 	}
-	if (c){
+	if (c) {
 		arrange(selmon);
 		//unfocus(f, 1);
 		focus(f);
@@ -2801,41 +2820,26 @@ seturgent(Client *c, int urg)
 void
 shiftviewclients(const Arg *arg)
 {
-	Arg shifted;
-	Client *c;
-	unsigned int tagmask = 0;
+  Arg shifted;
+  Client *c;
+  unsigned int tagmask = 0;
 
-	for (c = selmon->clients; c; c = c->next)
-		#if SCRATCHPADS_PATCH
-		if (!(c->tags & SPTAGMASK))
-			tagmask = tagmask | c->tags;
-		#else
-		tagmask = tagmask | c->tags;
-		#endif // SCRATCHPADS_PATCH
+  for (c = selmon->clients; c; c = c->next)
+    tagmask = tagmask | c->tags;
 
-	#if SCRATCHPADS_PATCH
-	shifted.ui = selmon->tagset[selmon->seltags] & ~SPTAGMASK;
-	#else
-	shifted.ui = selmon->tagset[selmon->seltags];
-	#endif // SCRATCHPADS_PATCH
-	if (arg->i > 0) // left circular shift
-		do {
-			shifted.ui = (shifted.ui << arg->i)
-			   | (shifted.ui >> (LENGTH(tags) - arg->i));
-			#if SCRATCHPADS_PATCH
-			shifted.ui &= ~SPTAGMASK;
-			#endif // SCRATCHPADS_PATCH
-		} while (tagmask && !(shifted.ui & tagmask));
-	else // right circular shift
-		do {
-			shifted.ui = (shifted.ui >> (- arg->i)
-			   | shifted.ui << (LENGTH(tags) + arg->i));
-			#if SCRATCHPADS_PATCH
-			shifted.ui &= ~SPTAGMASK;
-			#endif // SCRATCHPADS_PATCH
-		} while (tagmask && !(shifted.ui & tagmask));
+  shifted.ui = selmon->tagset[selmon->seltags];
+  if (arg->i > 0) 
+    do {
+      shifted.ui = (shifted.ui << arg->i)
+        | (shifted.ui >> (LENGTH(tags) - arg->i));
+    } while (tagmask && !(shifted.ui & tagmask));
+  else
+    do {
+      shifted.ui = (shifted.ui >> (- arg->i)
+          | shifted.ui << (LENGTH(tags) + arg->i));
+    } while (tagmask && !(shifted.ui & tagmask));
 
-	view(&shifted);
+  view(&shifted);
 }
 
 void

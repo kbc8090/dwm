@@ -197,7 +197,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button3,        cyclelayout,      { .i = -1 } },
 	// { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,				0,			 Button1,		  togglewin,     {0} },
-	{ ClkWinTitle,          0,              Button2,        killhidden,           {0} },
+	{ ClkWinTitle,          0,              Button2,        closewin,           {0} },
 //	{ ClkWinTitle,          MODKEY,              Button2,        killhidden,           {0} },
 	// { ClkStatusText,        0,              Button3,        spawn, {.v = jgmenucmd } },
    { ClkStatusText,        0,              Button1,        sigdwmblocks,   { .i = 1 } },
