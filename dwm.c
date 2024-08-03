@@ -1751,10 +1751,11 @@ monocle(Monitor *m)
     snprintf(m->ltsymbol, sizeof m->ltsymbol, "  %d", n);
   for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
     // Adding the + 1 so monocle mode gets the 1px border between the bar and the window for a cleaner look
-    if (selmon->showbar)
-      resize(c, m->wx, m->wy + 1, m->ww - 2 * c->bw, m->wh - 2 * c->bw - 1, 0);
-    else if (!selmon->showbar)
-      resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
+    resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
+//    if (selmon->showbar)
+ //     resize(c, m->wx, m->wy + 1, m->ww - 2 * c->bw, m->wh - 2 * c->bw - 1, 0);
+ //   else if (!selmon->showbar)
+ //     resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
 
 // void
@@ -3256,9 +3257,9 @@ updatebarpos(Monitor *m)
 	m->wy = m->my;
 	m->wh = m->mh;
 	if (m->showbar) {
-		m->wh -= bh;
+		m->wh -= bh + 1;
 		m->by = m->topbar ? m->wy : m->wy + m->wh;
-		m->wy = m->topbar ? m->wy + bh : m->wy;
+		m->wy = m->topbar ? m->wy + bh + 1 : m->wy;
 	} else
 		m->by = -bh;
 }

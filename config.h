@@ -11,9 +11,9 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int user_bh            = 2;        /* 2 is the default spacing around the bar's font */
+static const int user_bh            = 4;        /* 2 is the default spacing around the bar's font */
 static const Bool viewontag         = True;     /* Switch view on tag switch */
-static const char *fonts[]          = { "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "CaskaydiaCove Nerd Font:size=11:style=Medium", "NotoColorEmoji:size=10" };
+static const char *fonts[]          = { "Ubuntu Mono:size=11:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "CaskaydiaCove Nerd Font:size=11:style=Medium", "NotoColorEmoji:size=10" };
 static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
 
 
@@ -109,7 +109,7 @@ static const Layout layouts[] = {
 #define STATUSBAR "dwmblocks"
 
 #define ICONSIZE 18   /* icon size */
-#define ICONSPACING 6 /* space between icon and title */
+#define ICONSPACING 5 /* space between icon and title */
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
