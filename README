@@ -13,6 +13,7 @@ Status Bar: DWMBlocks-Async
  - Bottomstack Layout - Integrated with pertag and gaps
  - Colorbar - Added more colors and new color for active tags
  - Dmenumatchtop - Dmenu follows the topbar/bottombar position
+ - Dragmfact - MOD+SHIFT+Button 3 drags the size of the master
  - DWMBlocks Systray - Patch that integrates DWMBlocks well with systray as well as a version of the statuscolors patch
  - Float Border Color - Different border color if window is floating
  - Fix Transparent Borders - Colors ARGB border as full opaque even with compositor running
