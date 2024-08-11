@@ -29,6 +29,7 @@ Status Bar: DWMBlocks-Async
  - Set Border Pixels - Increase and Decrease border pixels also integrated with PerTag
  - Shiftview Clients - MOD+TAB/MOD+SHIFT+TAB switches between active tags
  - Systray
+ - Tilemovemouse - MOD+Button1 can drag a tiled window into any other position like awesome
  - Toggle Border - Toggles the border on a given window if needed
  - View on Tag - Switches Tags when sending a window to whatever tag
  - Winicon - Adds the win icon in the title field
