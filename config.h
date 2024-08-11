@@ -59,7 +59,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7" };
+static const char *tags[] = { " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 " };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -109,7 +109,7 @@ static const Layout layouts[] = {
 #define STATUSBAR "dwmblocks"
 
 #define ICONSIZE 18   /* icon size */
-#define ICONSPACING 5 /* space between icon and title */
+#define ICONSPACING 4 /* space between icon and title */
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -166,7 +166,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_minus,  setgaps,        {.i = GAP_RESET } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = GAP_TOGGLE} },
 	{ MODKEY|ShiftMask,             XK_h,      viewadjacent,   {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_l,      viewadjacent,   {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_semicolon,      viewadjacent,   {.i = +1 } },
 	{ MODKEY|ControlMask,           XK_h,      tagadjacent,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_l,      tagadjacent,    {.i = +1 } },
 	{ MODKEY,             XK_Page_Down, 		setborderpx,    {.i = -1 } },
@@ -207,6 +207,7 @@ static const Button buttons[] = {
 	{ ClkClientWin,         MODKEY,         Button1,        tilemovemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+  	{ ClkClientWin,         MODKEY|ShiftMask, Button3,      dragmfact,      {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
