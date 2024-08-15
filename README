@@ -49,7 +49,7 @@ Status Bar: DWMBlocks-Async
  - Removed restart option from quit prompt menu and just used restartsig patch instead for a keybind
  - Autostart file at $HOME/.local/share/dwm/autostart.sh
 
- /// 7-25-2024 Refinements \\\
+ /// 7-25-2024 and Forward Refinements \\\
  - Fixed Systray icon padding/spacing and coloring so it works correclty
  - Fixed 1px black bar under systray to be complete length of the screen
  - Fixed Monocle mode both with bar showing and not to be the right size window
@@ -59,3 +59,5 @@ Status Bar: DWMBlocks-Async
  - Added error message for weather dwmblocks
  - Added killall patch, which just kills all windows other than currently selected
  - Added refresh rate patch, no more 60fps
+ - Fixed snap Y position to correct for 1px black line at bottom of the bar
+ - Added Kanagawa colors'ish to config for some flavor
