@@ -12,26 +12,41 @@ static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 4;        /* 2 is the default spacing around the bar's font */
-static const Bool viewontag         = True;     /* Switch view on tag switch */
+static const Bool viewontag         = False;     /* Switch view on tag switch */
 static const char *fonts[]          = { "Ubuntu Mono:size=11:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "CaskaydiaCove Nerd Font:size=11:style=Medium", "NotoColorEmoji:size=10" };
 static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
 
+/* Tokyonight/Material'ish Custom Palette */
+//static const char col_gray1[]       = "#24283b";
+//static const char col_gray2[]       = "#4f5470";
+//static const char col_gray3[]       = "#a8b4ff";
+//static const char col_gray4[]       = "#eeeeee";
+//static const char col_cyan[]        = "#ffb26b";
+//static const char col_blue[]        = "#548aff";
+//static const char col1[]            = "#f07178";
+//static const char col2[]            = "#719eff";
+//static const char col3[]            = "#c387ea";
+//static const char col4[]            = "#82dbff";
+//static const char col5[]            = "#b7e07c";
+//static const char col6[]            = "#ffb26b";
+//static const char col7[]            = "#f07178";
+//static const char col8[]            = "#000000";
 
-static const char col_gray1[]       = "#24283b";
-static const char col_gray2[]       = "#4f5470";
-static const char col_gray3[]       = "#a8b4ff";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#ffb26b";
-static const char col_blue[]        = "#548aff";
-static const char col1[]            = "#f07178";
-static const char col2[]            = "#719eff";
-static const char col3[]            = "#c387ea";
-static const char col4[]            = "#82dbff";
-static const char col5[]            = "#b7e07c";
-static const char col6[]            = "#ffb26b";
-static const char col7[]            = "#f07178";
+/* Kanagawa Color Palette */
+static const char col_gray1[]       = "#2a2a37";
+static const char col_gray2[]       = "#54546d";
+static const char col_gray3[]       = "#7e9cd8";
+static const char col_gray4[]       = "#c8c093";
+static const char col_cyan[]        = "#ffa066";
+static const char col_blue[]        = "#548594";
+static const char col1[]            = "#e46876";
+static const char col2[]            = "#7fb4ca";
+static const char col3[]            = "#957fb8";
+static const char col4[]            = "#a3d4d5";
+static const char col5[]            = "#98bb6c";
+static const char col6[]            = "#ffa066";
+static const char col7[]            = "#e46876";
 static const char col8[]            = "#000000";
-
 
 enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
        SchemeCol5, SchemeCol6, SchemeCol7, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeTagsOcc, SchemeInfoSel, SchemeInfoNorm, SchemeSel, SchemeUnsel, SchemeHid, SchemeSystray }; /* color schemes */
@@ -50,11 +65,11 @@ static const char *colors[][3]      = {
 	[SchemeTagsSel]  = { col_gray1, col2,  col_gray2  }, // Tagbar left selected {text,background,not used but cannot be empty}
    [SchemeTagsNorm]  = { col_gray3, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
    [SchemeTagsOcc]  = { col6, col_gray1,  col_gray2  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-   [SchemeInfoSel]  = { col_gray1, col5,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
+   [SchemeInfoSel]  = { col_gray1, col3,  col_gray2  }, // infobar middle  selected {text,background,not used but cannot be empty}
    [SchemeInfoNorm]  = { col_gray3, col_gray1,  col_gray2  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeSel]  = { col_gray4, col_cyan,  col4  },
 	[SchemeUnsel]  = { col_gray2, col_gray1,  col4  },
-	[SchemeHid]  = { col5, col_gray1,  col4  },
+	[SchemeHid]  = { col3, col_gray1,  col4  },
 	[SchemeSystray]  = { col_gray1, col_gray1, col8  },
 };
 
@@ -74,6 +89,7 @@ static const Rule rules[] = {
 	{ "Xfce4-appfinder",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "qt5ct",  NULL,       "Qt5 Configuration Tool",       0,       	1,           -1 },	
 	{ "Lxappearance",  NULL,       NULL,       0,       	1,           -1 },	
+	{ "mpv",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "Nitrogen",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "Deadbeef",  NULL,       NULL,       0,       	1,           -1 },	
 	{ "feh",  NULL,       NULL,       0,       	1,           -1 },	
