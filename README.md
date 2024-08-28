@@ -1,7 +1,8 @@
-![screen-install](ss.png)
-![screen-install](ss2.png)
+![screen1](ss.png)
+![screen2](ss2.png)
+![Preview](ss.png)
 
-=== DWM Patches, Changes, and Documentation ===
+# === DWM Patches, Changes, and Documentation ===
 
 Status Bar: DWMBlocks-Async
 - Tried to create POSIX compliant scripts where I can and are as fast as I can manage to get them.  They use nawk(awk) for output since printf couldnt play nicely with dwmblocks.
