@@ -13,8 +13,8 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 4;        /* 2 is the default spacing around the bar's font */
 static const Bool viewontag         = False;     /* Switch view on tag switch */
-static const char *fonts[]          = { "Ubuntu Mono:size=11:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault", "JoyPixels:pixelsize=12:antialias=true:autohint=true", "CaskaydiaCove Nerd Font:size=11:style=Medium", "NotoColorEmoji:size=10" };
-static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight:autohinting=false:lcdfilter=lcddefault";
+static const char *fonts[]          = { "Ubuntu Mono:size=11:style=Bold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight", "JoyPixels:pixelsize=12:antialias=true", "CaskaydiaCove Nerd Font:size=11:style=Medium", "NotoColorEmoji:size=10" };
+static const char dmenufont[]       = "JetBrains Mono:size=10:style=ExtraBold:dpi=96:antialias=true:hinting=true:hintstyle=hintslight";
 
 /* Tokyonight/Material'ish Custom Palette */
 //static const char col_gray1[]       = "#24283b";
@@ -139,7 +139,7 @@ static const Key keys[] = {
 	{ MODKEY,             			  XK_F1, spawn,      		SHCMD("chromium --force-dark-mode") },			
 	{ MODKEY,             			  XK_KP_Subtract, spawn,      SHCMD("pactl -- set-sink-volume 0 -5%; kill -53 $(pidof dwmblocks)") },
 	{ MODKEY,             			  XK_KP_Add, spawn,      		SHCMD("pactl -- set-sink-volume 0 +5%; kill -53 $(pidof dwmblocks)") },	
-	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("pcmanfm") },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,         SHCMD("pcmanfm-qt") },
 	{ MODKEY,             			  XK_n, spawn,      		SHCMD("nitrogen") },			
 	{ MODKEY|ShiftMask,             XK_n, spawn,      		SHCMD("nitrogen --set-zoom-fill --random") },		
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
